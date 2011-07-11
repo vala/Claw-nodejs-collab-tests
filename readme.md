@@ -6,8 +6,8 @@ Mini serveur de chat pour tester NodeJS, Express, Coffee et DNode
 
 - [Node.js](http://nodejs.org/)
 - [NPM](http://npmjs.org/)
-- [Express]()
-- [CoffeeScript]()
+- [Express](https://github.com/visionmedia/express.git)
+- [CoffeeScript](http://jashkenas.github.com/coffee-script/)
 - Normalement le reste des packages utilisés sont inclus dans le dossier ./node_modules
 
 ## Usage : 
