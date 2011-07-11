@@ -1,5 +1,7 @@
 # Claw NodeJS / Coffee tests
 
+Mini serveur de chat pour tester NodeJS, Express, Coffee et DNode
+
 ## Dependencies
 
 - [Node.js](http://nodejs.org/)
