@@ -42,12 +42,10 @@ chat_server = (client, con) ->
 	events_names = ['joined', 'said', 'parted']
 	
 	con.on 'ready', =>
-		console.log('  ** Client connected')
-		console.log('  ** client = ' + client.toString())
+		console.log('  ** New client connected with nickname : ' + client.name)
 		emitter.on name, client[name] for name in events_names
 		emitter.emit 'joined', client.name
 		clients[client.name] = client
-		console.log '   * client.' + i + ' => ' + client[i] for i in Object.keys(client)
 		
 	con.on 'end', ->
 		emitter.removeListener(name, client[name]) for name in events_names
@@ -59,6 +57,8 @@ chat_server = (client, con) ->
 
   this.names = (cb) ->
   	cb Object.keys(clients)
+
+	this
 
 # Lancement du serveur DNode
 dnode(chat_server).listen(app)

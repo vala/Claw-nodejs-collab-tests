@@ -6,37 +6,52 @@ $(document).ready ->
 	# On présélectionne les formulaires afin d'accélerer le traitement par la suite
 	$name_form = $('#user_name_container form')
 	$chat_message_form = $('#chat_message_input_container form')
+	$message_input_field = $chat_message_form.find('input[name=chat_input_field]')
 	$messages_container = $('#chat_messages ul')
 	
+	
 	add_line = (css_class, html_nodes...) ->
-		$messages_container
-			.append $('<li/>').addClass(css_class).append(html_nodes)
+		$li = $('<li/>').addClass(css_class)
+		$li.append(node) for node in html_nodes
+		$messages_container.append $li
+	
+	launch_chat = (user_name) ->
+		dnode( ->
+			# Création de l'objet décrivant l'interface avec le "Client"
+			this.name = user_name
+			this.joined = (user_name) ->
+				add_line('user_connects', user_name + ' has joined')
+			this.parted = (user_name) ->
+				add_line('user_disconnects', user_name + ' has parted')
+			this.said = (user_name, msg) ->
+				add_line(
+					'chat_message',
+					$('<span/>')
+						.addClass('user_name')
+						.html(user_name),
+					' wrote : '
+					$('<p/>')
+						.addClass('user_message')
+						.html(msg)
+				)
+			# Retourne this sinon fait perdre 2 bonnes heures à comprendre pourquoi
+			# l'objet récupéré par app.coffee dans le `con.on 'ready'` ne contient nos propriétés
+			# Merci coffeescript ! fuckaz
+			this
+		).connect (remote) ->
+			$chat_message_form
+				.submit ->
+					message = $message_input_field.val()
+					remote.say message
+					$message_input_field.val('')
+					false
+	
 	# Lors de la soumission du nom
 	$name_form
 		.submit (e) ->
-			dnode( ->
-				this.name = $name_form.find('input[name="user_name_field"]').val();
-				this.joined = (who) ->
-					add_line('user_connects', who + ' has joined')
-				this.parted = (who) ->
-					add_line('user_connects', who + ' has parted')
-				this.said = (who, msg) ->
-					add_line(
-						'chat_message',
-						$('<span/>')
-							.addClass('user_name')
-							.html(name),
-						' wrote : '
-						$('<p/>')
-							.addClass('user_message')
-							.html(msg)
-					)
-			).connect (remote) ->
-				$chat_message_form
-					.submit ->
-						return false if not current_user_name?
-						user_name = $form.find('input[name=user_name_field]').val()
-						message = $form.find('input[name=chat_input_field]').val()
-						remote.say message
-						false
-			return false
+			user_name = $name_form.find('input[name="user_name_field"]').val()
+			launch_chat user_name
+			$name_form.fadeOut 300, ->
+				$('#chat_message_input_container').fadeIn 300
+			false
+				
