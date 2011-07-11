@@ -10,8 +10,6 @@ html ->
     link rel: 'icon', href: '/favicon.png'
     link rel: 'stylesheet', href: '/app.css'
 
-#    script src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'
-#    script src: '/app.js'
 		script src: '/browserify.js'
 
   body ->

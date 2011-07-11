@@ -12,9 +12,9 @@ Mini serveur de chat pour tester NodeJS, Express, Coffee et DNode
 
 ## Usage : 
 
-git clone git://github.com/vala/Claw-nodejs-collab-tests.git claw-collab
-cd claw-collab
-coffee -w app.coffee
+	git clone git://github.com/vala/Claw-nodejs-collab-tests.git claw-collab
+	cd claw-collab
+	coffee -w app.coffee
 
 Navigateur :
 http://localhost:3000/
